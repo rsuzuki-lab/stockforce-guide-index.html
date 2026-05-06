@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StockForce｜新人ライバー育成ガイド</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #F5F0EB;
+    --white:     #FFFFFF;
+    --black:     #1A1A1A;
+    --dark:      #2D2D2D;
+    --muted:     #888888;
+    --border:    #DEDEDE;
+    --accent:    #C8835A;
+    --accent-bg: #F5E8DF;
+    --accent-bd: #E5C8B4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--dark);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-brand { font-weight: 700; font-size: 15px; color: var(--black); }
+  .nav-sep   { color: var(--border); font-size: 14px; }
+  .nav-sub   { font-size: 13px; color: var(--muted); }
+  .nav-pills { margin-left: auto; display: flex; gap: 6px; }
+  .nav-pill  {
+    font-size: 11px; padding: 4px 14px; border-radius: 999px;
+    color: var(--muted); cursor: pointer; border: 1px solid transparent;
+    font-family: 'DM Mono', monospace; letter-spacing: 0.03em;
+    transition: all .2s;
+    text-decoration: none;
+  }
+  .nav-pill:hover, .nav-pill.active {
+    background: var(--accent-bg); color: var(--accent);
+    border-color: var(--accent-bd);
+  }
+
+  /* ── WRAPPER ── */
+  .page { max-width: 860px; margin: 0 auto; padding: 72px 40px 120px; }
+
+  /* ── EYEBROW ── */
+  .eyebrow {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    background: var(--accent-bg);
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin-bottom: 28px;
+  }
+
+  /* ── HERO ── */
+  .hero-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--black);
+    margin-bottom: 24px;
+  }
+  .hero-body {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.9;
+    max-width: 640px;
+    margin-bottom: 48px;
+  }
+
+  /* ── META ROW ── */
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .meta-item { display: flex; gap: 6px; align-items: baseline; }
+  .meta-label { font-size: 12px; font-weight: 700; color: var(--dark); }
+  .meta-val   { font-size: 12px; color: var(--muted); }
+
+  /* ── SECTION ── */
+  .section { margin-top: 80px; }
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 28px;
+  }
+  .section-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 28px;
+  }
+
+  /* ── PHASE BANNER ── */
+  .phase-banner {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+  .phase-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.3em; color: var(--accent); margin-bottom: 6px; }
+  .phase-value { font-family: 'Noto Serif JP', serif; font-size: 26px; font-weight: 700; color: var(--black); }
+  .phase-target-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.3em; color: var(--muted); margin-bottom: 6px; text-align: right; }
+  .phase-target-value { font-family: 'Noto Serif JP', serif; font-size: 28px; font-weight: 700; color: var(--accent); text-align: right; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-bd);
+    padding: 18px 24px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 12px;
+  }
+  .highlight-note { font-size: 13px; color: var(--muted); }
+
+  /* ── 3-CARD GRID ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    padding: 0 0 20px;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow .2s;
+  }
+  .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 18px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-num {
+    width: 28px; height: 28px;
+    background: var(--accent-bg);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: var(--accent);
+    flex-shrink: 0;
+  }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--dark); }
+  .card-body  { padding: 16px 18px 0; flex: 1; }
+
+  /* stat rows */
+  .stat-block { margin-bottom: 12px; }
+  .stat-block + .stat-block { border-top: 1px solid var(--border); padding-top: 12px; }
+  .stat-sublabel { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .stat-row { display: flex; align-items: baseline; gap: 6px; }
+  .stat-num  { font-family: 'Noto Serif JP', serif; font-size: 38px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .stat-unit { font-size: 12px; color: var(--muted); }
+
+  .card-note {
+    margin: 16px 18px 0;
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-bd);
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--dark);
+    line-height: 1.7;
+  }
+  .card-text {
+    padding: 16px 18px 0;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  /* ── ROW CARDS (manager) ── */
+  .row-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: box-shadow .2s;
+  }
+  .row-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+  .row-num {
+    width: 30px; height: 30px;
+    background: var(--accent-bg);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: var(--accent);
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .row-content {}
+  .row-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+  .row-body  { font-size: 13px; color: var(--muted); line-height: 1.8; }
+
+  /* ── EVENT GRID ── */
+  .event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .event-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    padding: 0 0 20px;
+  }
+  .event-card-header { padding: 16px 20px 12px; border-bottom: 1px solid var(--border); }
+  .event-card-title  { font-size: 15px; font-weight: 700; color: var(--dark); }
+  .event-card-note   { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .event-tags        { padding: 16px 20px 0; display: flex; flex-direction: column; gap: 10px; }
+  .event-tag {
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-bd);
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    text-align: center;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 100px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .footer-brand { font-weight: 700; color: var(--dark); font-size: 14px; }
+
+  /* ── FADE IN ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade { opacity: 0; animation: fadeUp .6s ease forwards; }
+  .fade:nth-child(1) { animation-delay: .05s; }
+  .fade:nth-child(2) { animation-delay: .12s; }
+  .fade:nth-child(3) { animation-delay: .19s; }
+  .fade:nth-child(4) { animation-delay: .26s; }
+  .fade:nth-child(5) { animation-delay: .33s; }
+
+  @media (max-width: 680px) {
+    .page { padding: 48px 20px 80px; }
+    .nav  { padding: 0 20px; }
+    .nav-pills { display: none; }
+    .card-grid  { grid-template-columns: 1fr; }
+    .event-grid { grid-template-columns: 1fr; }
+    .phase-banner { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .phase-target-label, .phase-target-value { text-align: left; }
+    .meta-row { gap: 16px; }
+    .footer { flex-direction: column; gap: 10px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <span class="nav-brand">StockForce</span>
+  <span class="nav-sep">/</span>
+  <span class="nav-sub">新人ライバー育成ガイド</span>
+  <div class="nav-pills">
+    <a class="nav-pill active" href="#overview">全体像</a>
+    <a class="nav-pill" href="#liver">ライバー</a>
+    <a class="nav-pill" href="#manager">マネージャー</a>
+    <a class="nav-pill" href="#events">イベント</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="fade">
+    <div class="eyebrow">GROWTH PLAYBOOK</div>
+    <h1 class="hero-title">新人ライバー、<br>初期フェーズ育成ガイド。</h1>
+    <p class="hero-body">BS登録から月10万ダイヤ達成まで。フェーズごとのKPI・マネジメント業務・トークスクリプトを時系列で整理した、マネージャー向け実践ガイドです。</p>
+    <div class="meta-row">
+      <div class="meta-item"><span class="meta-label">対象：</span><span class="meta-val">担当マネージャー / 新人研修担当</span></div>
+      <div class="meta-item"><span class="meta-label">期間カバー：</span><span class="meta-val">4〜5ヶ月目</span></div>
+      <div class="meta-item"><span class="meta-label">最重要KPI：</span><span class="meta-val">50万ダイヤ達成</span></div>
+      <div class="meta-item"><span class="meta-label">発行：</span><span class="meta-val">StockForce</span></div>
+    </div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section id="overview" class="section fade">
+    <div class="section-eyebrow">OVERVIEW</div>
+    <h2 class="section-title">フェーズ概要</h2>
+    <div class="section-divider"></div>
+
+    <div class="phase-banner">
+      <div>
+        <div class="phase-label">PHASE</div>
+        <div class="phase-value">4ヶ月目 〜 5ヶ月目</div>
+      </div>
+      <div>
+        <div class="phase-target-label">TARGET</div>
+        <div class="phase-target-value">50万ダイヤ</div>
+      </div>
+    </div>
+
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">ライバーの状態目標</p>
+    <div class="highlight-box">基本的に分からないことが無く、自走している状態</div>
+    <p class="highlight-note">このフェーズでは、ライバー自身が主体的に動ける基盤を固めることが最優先です。</p>
+  </section>
+
+  <!-- LIVER ACTION -->
+  <section id="liver" class="section fade">
+    <div class="section-eyebrow">LIVER ACTION</div>
+    <h2 class="section-title">ライバーがやること</h2>
+    <div class="section-divider"></div>
+
+    <div class="card-grid">
+
+      <!-- ① 配信 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-num">①</div>
+          <div class="card-title">配信時間・配信日数</div>
+        </div>
+        <div class="card-body">
+          <div class="stat-block">
+            <div class="stat-sublabel">配信時間</div>
+            <div class="stat-row">
+              <div class="stat-num">100</div>
+              <div class="stat-unit">時間以上</div>
+            </div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-sublabel">配信日数</div>
+            <div class="stat-row">
+              <div class="stat-num">25</div>
+              <div class="stat-unit">日以上</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ② PK -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-num">②</div>
+          <div class="card-title">PKバトル実績</div>
+        </div>
+        <div class="card-body">
+          <div class="stat-block">
+            <div class="stat-sublabel">PK総回数</div>
+            <div class="stat-row">
+              <div class="stat-num">119</div>
+              <div class="stat-unit">回以上</div>
+            </div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-sublabel">PK回数/日</div>
+            <div class="stat-row">
+              <div class="stat-num">5</div>
+              <div class="stat-unit">回/日以上</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-note">おすすめから申請する際は<br>自分よりリーグが上の方を選ぶ</div>
+      </div>
+
+      <!-- ③ イベント -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-num">③</div>
+          <div class="card-title">イベント参加の姿勢</div>
+        </div>
+        <div class="card-text">入賞を目指すために、リスナーへの参加意図・目標をしっかり共有する。</div>
+        <div class="card-note" style="margin-top:auto;margin-top:16px;">
+          入賞を目指す意識をリスナーと共有し、一体感のある配信を心がける
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MANAGER ACTION -->
+  <section id="manager" class="section fade">
+    <div class="section-eyebrow">MANAGER ACTION</div>
+    <h2 class="section-title">マネージャー業</h2>
+    <div class="section-divider"></div>
+
+    <div class="row-card">
+      <div class="row-num">①</div>
+      <div class="row-content">
+        <div class="row-title">バトルクオリティ向上</div>
+        <div class="row-body">バトルの量だけでなく質にこだわる。対戦相手やリスナーの気持ちを誘導するレクチャー会などを実施する。</div>
+      </div>
+    </div>
+
+    <div class="row-card">
+      <div class="row-num">②</div>
+      <div class="row-content">
+        <div class="row-title">TikTok公式イベント促進</div>
+        <div class="row-body">イベント概要の説明を行い、初日・倍率日・最終日のバトル組みをサポートする。</div>
+      </div>
+    </div>
+
+    <div class="row-card">
+      <div class="row-num">③</div>
+      <div class="row-content">
+        <div class="row-title">先輩ライバーとの連携</div>
+        <div class="row-body">担当している・事務所の先輩ライバーさんと繋ぐ機会をつくる。先輩ライバーのレクチャー動画を展開する。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section id="events" class="section fade">
+    <div class="section-eyebrow">TARGET EVENTS</div>
+    <h2 class="section-title">参加イベント</h2>
+    <div class="section-divider"></div>
+
+    <div class="event-grid">
+      <div class="event-card">
+        <div class="event-card-header">
+          <div class="event-card-title">① 優先イベント</div>
+          <div class="event-card-note">入賞を狙いにいく重点イベント</div>
+        </div>
+        <div class="event-tags">
+          <div class="event-tag">新人王</div>
+          <div class="event-tag">ギフトスター</div>
+          <div class="event-tag">外部IP</div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-card-header">
+          <div class="event-card-title">② 追加イベント</div>
+          <div class="event-card-note">積極的に参加し実績を積む</div>
+        </div>
+        <div class="event-tags">
+          <div class="event-tag">盾イベ</div>
+          <div class="event-tag">Allstars</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">StockForce</div>
+    <div>ライバー育成プログラム　4〜5ヶ月目フェーズ</div>
+  </footer>
+
+</div>
+
+<script>
+  // smooth scroll for nav pills
+  document.querySelectorAll('.nav-pill').forEach(pill => {
+    pill.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(pill.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+
+  // highlight active section on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const pills = document.querySelectorAll('.nav-pill[href]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    pills.forEach(p => {
+      p.classList.toggle('active', p.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>
